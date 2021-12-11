@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/GradientApp/static/css/main.d87cbb72.chunk.css",
-    "main.js": "/GradientApp/static/js/main.dc6ac14c.chunk.js",
-    "main.js.map": "/GradientApp/static/js/main.dc6ac14c.chunk.js.map",
-    "runtime-main.js": "/GradientApp/static/js/runtime-main.1d9d6aa5.js",
-    "runtime-main.js.map": "/GradientApp/static/js/runtime-main.1d9d6aa5.js.map",
-    "static/js/2.86534317.chunk.js": "/GradientApp/static/js/2.86534317.chunk.js",
-    "static/js/2.86534317.chunk.js.map": "/GradientApp/static/js/2.86534317.chunk.js.map",
-    "static/js/3.cfaba3fd.chunk.js": "/GradientApp/static/js/3.cfaba3fd.chunk.js",
-    "static/js/3.cfaba3fd.chunk.js.map": "/GradientApp/static/js/3.cfaba3fd.chunk.js.map",
+    "main.js": "/GradientApp/static/js/main.de87111a.chunk.js",
+    "main.js.map": "/GradientApp/static/js/main.de87111a.chunk.js.map",
+    "runtime-main.js": "/GradientApp/static/js/runtime-main.4fb3aea0.js",
+    "runtime-main.js.map": "/GradientApp/static/js/runtime-main.4fb3aea0.js.map",
+    "static/js/2.8b79eda9.chunk.js": "/GradientApp/static/js/2.8b79eda9.chunk.js",
+    "static/js/2.8b79eda9.chunk.js.map": "/GradientApp/static/js/2.8b79eda9.chunk.js.map",
+    "static/js/3.d87e3c76.chunk.js": "/GradientApp/static/js/3.d87e3c76.chunk.js",
+    "static/js/3.d87e3c76.chunk.js.map": "/GradientApp/static/js/3.d87e3c76.chunk.js.map",
     "index.html": "/GradientApp/index.html",
     "static/css/main.d87cbb72.chunk.css.map": "/GradientApp/static/css/main.d87cbb72.chunk.css.map",
-    "static/js/2.86534317.chunk.js.LICENSE.txt": "/GradientApp/static/js/2.86534317.chunk.js.LICENSE.txt",
+    "static/js/2.8b79eda9.chunk.js.LICENSE.txt": "/GradientApp/static/js/2.8b79eda9.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/GradientApp/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1d9d6aa5.js",
-    "static/js/2.86534317.chunk.js",
+    "static/js/runtime-main.4fb3aea0.js",
+    "static/js/2.8b79eda9.chunk.js",
     "static/css/main.d87cbb72.chunk.css",
-    "static/js/main.dc6ac14c.chunk.js"
+    "static/js/main.de87111a.chunk.js"
   ]
 }
