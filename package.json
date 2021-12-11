@@ -2,7 +2,7 @@
   "name": "map",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jonqwerty.github.io/GradientApp",
+  "homepage": "https://jonqwerty.github.io/map",
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.16",
     "@testing-library/jest-dom": "^5.16.1",
