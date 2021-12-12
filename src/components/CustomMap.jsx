@@ -2,6 +2,7 @@ import React, { useEffect, useState }  from 'react'
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 import { locationsData } from '../data/data'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 
 const mapStyles = {
@@ -18,9 +19,17 @@ const [locationId, setLocationId] = useState(null)
 const [locationInfo, setLocationInfo] = useState(null)
 const [locationImage, setLocationImage] = useState(null)
 
+
+  // useEffect(() => {
+  //   setLocations(locationsData )
+  // }, [])
+
   useEffect(() => {
-    setLocations(locationsData )
+    axios.get(process.env.REACT_APP_API_URL)
+          .then(res => setLocations(JSON.parse(res.data.positions)))
+         
   }, [])
+  
 
   useEffect(() => {
     if (locationId) {

@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, HashRouter } from 'react-router-dom'
 
+console.log(process.env.REACT_APP_API_URL)
 
 ReactDOM.render(
   
