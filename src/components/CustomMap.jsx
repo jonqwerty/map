@@ -16,20 +16,21 @@ const CustomMap = ({google}) => {
   const [flag, setFlag] = useState(false)
 
   const [locations, setLocations] = useState([])
-  const [locationId, setLocationId] = useState(null)
-  const [locationInfo, setLocationInfo] = useState(null)
-  const [locationImage, setLocationImage] = useState(null)
-
-  console.log('locations', locations)
+  const [inside, setInside] = useState([])
   const [ref, setRef] = useState('')
-  console.log('ref', ref)
-
- 
+  
     useEffect(() => {
       axios.get(process.env.REACT_APP_API_URL)
           .then(res => setLocations(JSON.parse(res.data.positions)))
+      
+          axios.get(process.env.REACT_APP_API_URL)
+          .then(res => setInside(JSON.parse(res.data.positions)))
+          
     }, [])
 
+   
+
+    
     useEffect(() => {
       const timer = setTimeout(() => 
         axios.get(process.env.REACT_APP_API_URL)
@@ -38,23 +39,27 @@ const CustomMap = ({google}) => {
       
     }, [flag])
   
- 
-
-    // useEffect(() => {
-    //  alert('yi')
-
-
-    // }, [locationId])
-
-    // console.log(locationId)
-
-    // const handleClick = (e) => {
+    const handleDrag = (e) => {
+        const inWindow = []
+        //console.log(inWindow)
+        const bounds = ref.map.getBounds()
+        for (var i = 0; i < locations.length; i++) {
+          if (bounds.contains(new google.maps.LatLng(locations[i].lat, locations[i].lng))) {
+            inWindow.push(locations[i])
+          }
+        }
+        setInside(inWindow)
      
-    //   const first = locations.find(item => item.id === locationId)
-    //   locations.filter(item => item.id === locationId)
-    //   const newLocations = [ first, ...locations]
-    //   setLocations(newLocations)
-    // }
+      //bounds.contains(new google.maps.LatLng(locations.find(item => item.lat =5).lat, locations.find(item => item.id=5).lng))
+    }
+
+    const handleClick = (e) => {
+      const lat = e.position.lat
+      const choosen = inside.find(item => item.lat === lat)
+      const withoutChoosen = inside.filter(item => item.lat !== lat)
+      const newLocations = [ choosen, ...withoutChoosen]
+      setInside(newLocations)
+     }
 
 
   return (
@@ -73,40 +78,44 @@ const CustomMap = ({google}) => {
           initialCenter={{ lat: 50.44055686944465, lng: 30.53022771561217 }}
           ref={map => setRef(map)}
 
-          onReady={(map) => {
-            console.log('onReady', ref.map.getBounds())
-          }}
+          // onReady={(map) => {
+          //   console.log('onReady', ref.map.getBounds())
+          // }}
 
-          onBoundsChange={(e)=>{
-            console.log('onBoundsChange', ref.map.getBounds())
-          }}
+          // onBoundsChange={(e)=>{
+          //   console.log('onBoundsChange', ref.map.getBounds())
+          // }}
 
-          onClick={(e) => {
-            console.log('map bounds', ref.map.getBounds())
-            console.log(ref.map.getBounds().contains(new google.maps.LatLng(locations.find(item => item.id=5).lat, locations.find(item => item.id=5).lng)))    
-          }}
-          
+          onDragend={handleDrag}
+          onZoomChanged={handleDrag}
+
+          // onClick={(e) => {
+          //   console.log('map bounds', ref.map.getBounds())
+            //console.log(ref.map.getBounds().contains(new google.maps.LatLng(locations.find(item => item.lat =5).lat, locations.find(item => item.id=5).lng)))    
+          // }} 
         >
-        
-        {
-        locations.map(loc =>  
-            <Marker key={loc.id}  position={{ lat: loc.lat, lng: loc.lng }}  
-           // onClick={() => setLocationId(loc.id)} 
-            />
-            
-        )}
+
+        { 
+          inside.map(loc =>  
+              <Marker key={loc.id}  position={{ lat: loc.lat, lng: loc.lng }}  
+              onClick={handleClick} 
+              />  
+          )
+      
+                
+        }
         </Map>
         
       </div>
-      <div  style={{width: "300px", border: "solid black 1px"}}>
+      <div  style={{width: "300px",}}>
         
         {
-          locations.map(loc => 
-            <div key={loc.id} style={{ paddingBottom: "30px"}}>
-              <div >
-                <img style={{width: "300px", height: "300px"}} src={loc.image} alt="image" />
+          inside.map(loc => 
+            <div key={loc.id} style={{  border: "solid black 2px", margin: "10px"}}>
+              <div style={{  maxWidth: "300px", maxHeight: "350px"}} >
+                 <img style={{   maxWidth: "100%", maxHeight: "100%"}} src={loc.image} alt="image" /> 
               </div>
-              <div style={{margin: "5px"}}>{loc.info} </div>
+              <div style={{margin: "10px"}}>{loc.info} </div>
 
             </div>
           )

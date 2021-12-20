@@ -29,7 +29,7 @@ const Navbar = (props) => {
     }
 
     const handleLng = (e) => {
-        setLng(e.target.value.split(' ').join(''))
+        setLng(e.target.value.split(' ').join('') )
     }
 
     const handleInfo = (e) => {
@@ -42,7 +42,7 @@ const Navbar = (props) => {
 
     const handleClick =  (e) => {
         e.preventDefault()
-
+        if (lat.match(/^[0-9]+[.]?[0-9]+$/) && lng.match(/^[0-9]+[.]?[0-9]+$/) && info.length && image.length) {
         const obj = {
             lat : lat,
             lng: lng,
@@ -71,7 +71,13 @@ const Navbar = (props) => {
         setLng('')
         setInfo('')
         setImage('')
-        props.setFlag(!props.flag)
+        props.setFlag(!props.flag) 
+
+       
+        } else {
+            alert('Coordinates must be numeric with ".", and all fields must be filling')
+        }
+       
     }
 
 
