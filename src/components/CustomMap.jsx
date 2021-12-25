@@ -16,25 +16,28 @@ const CustomMap = ({google}) => {
   const [flag, setFlag] = useState(false)
 
   const [locations, setLocations] = useState([])
+  console.log(locations)
   const [inside, setInside] = useState([])
   const [ref, setRef] = useState('')
   
     useEffect(() => {
       axios.get(process.env.REACT_APP_API_URL)
-          .then(res => setLocations(JSON.parse(res.data.positions)))
+          .then(res => setLocations(res.data.positions))
       
           axios.get(process.env.REACT_APP_API_URL)
-          .then(res => setInside(JSON.parse(res.data.positions)))
+          .then(res => setInside(res.data.positions))
+
+          
           
     }, [])
 
    
-
+    console.log(locations)
     
     useEffect(() => {
       const timer = setTimeout(() => 
         axios.get(process.env.REACT_APP_API_URL)
-          .then(res => setLocations(JSON.parse(res.data.positions)))
+          .then(res => setLocations(res.data.positions))
       , 3000)
       
     }, [flag])
@@ -67,10 +70,9 @@ const CustomMap = ({google}) => {
 
       <Navbar flag={flag} setFlag={setFlag} />
 
-      <div style={{width: "800px",height: "500px",}}>
+      <div style={{width: "800px", height: "500px"}}>
        
         <Map
-        id="map"
           className="map" 
           google={google}
           zoom={11}
@@ -96,31 +98,31 @@ const CustomMap = ({google}) => {
         >
 
         { 
-          inside.map(loc =>  
-              <Marker key={loc.id}  position={{ lat: loc.lat, lng: loc.lng }}  
+          locations.map(loc =>  
+              <Marker key={loc._id}  position={{ lat: loc.lat, lng: loc.lng }}  
               onClick={handleClick} 
               />  
-          )
-      
-                
+          )     
         }
         </Map>
         
       </div>
-      <div  style={{width: "300px",}}>
+      
+      <div  style={{width: "300px"}}>
         
         {
           inside.map(loc => 
-            <div key={loc.id} style={{  border: "solid black 2px", margin: "10px"}}>
-              <div style={{  maxWidth: "300px", maxHeight: "350px"}} >
-                 <img style={{   maxWidth: "100%", maxHeight: "100%"}} src={loc.image} alt="image" /> 
+            <div key={loc._id} style={{ backgroundColor:'grey', border: "solid black 2px", margin: "10px"}}>
+              <div style={{   margin: "10px"}} >
+                 <img style={{ border: "solid black 2px",  width: "255px", height: "250px"}} src={process.env.REACT_APP_API_URL + loc.image} alt="image" /> 
               </div>
-              <div style={{margin: "10px"}}>{loc.info} </div>
+              <div style={{padding: "10px"}}>{loc.info} </div>
 
             </div>
           )
         }
         </div>
+        
     </div>  
   )
 }

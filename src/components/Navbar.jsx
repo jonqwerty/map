@@ -1,20 +1,6 @@
 import React, { useState }  from 'react'
 import axios from 'axios'
 
-const sendData = async (lat, lng, info, image) => {
-    try {
-        const response = await axios.post('http://localhost:5000/', {
-        lat,
-        lng,
-        info,
-        image
-        })
-        alert(response.data.message)
-    } catch (e) {
-
-    }
-    
-}
 
 
 const Navbar = (props) => {
@@ -22,7 +8,7 @@ const Navbar = (props) => {
     const [lat, setLat] = useState('')
     const [lng, setLng] = useState('')
     const [info, setInfo] = useState('')
-    const [image, setImage] = useState('')
+    const [selectedFile, setSelectedFile] = useState(null)
 
     const handleLat = (e) => {
         setLat(e.target.value.split(' ').join(''))
@@ -33,32 +19,37 @@ const Navbar = (props) => {
     }
 
     const handleInfo = (e) => {
-        setInfo(e.target.value.split(' ').join(''))
+        setInfo(e.target.value)
     }
 
-    const handleImage = (e) => {
-        setImage(e.target.value.split(' ').join(''))
-    }
+   
+    
 
-    const handleClick =  (e) => {
+
+console.log('image', selectedFile)
+
+    const handleClick =  async (e) => {
         e.preventDefault()
-        if (lat.match(/^[0-9]+[.]?[0-9]+$/) && lng.match(/^[0-9]+[.]?[0-9]+$/) && info.length && image.length) {
-        const obj = {
-            lat : lat,
-            lng: lng,
-            info: info,
-            image: image
-        }
-        console.log(obj)
+        
+        const formData = new FormData()
+       
+       
+        if (lat.match(/^[0-9]+[.]?[0-9]+$/) && lng.match(/^[0-9]+[.]?[0-9]+$/) && info.length && selectedFile) {
+            formData.append('lat', lat)
+            formData.append('lng', lng)
+            formData.append('info', info)
+            formData.append('image', selectedFile)
+       
+        
         
         let axiosConfig = {
             headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
+                'Content-Type': 'application/json; charset=utf-8',
                 "Access-Control-Allow-Origin": "*",
             }
           }
           
-        axios.post(process.env.REACT_APP_API_URL, obj, axiosConfig)
+      await  axios.post(process.env.REACT_APP_API_URL, formData, axiosConfig)
           .then((res) => {
             console.log("RESPONSE RECEIVED: ", res);
           })
@@ -70,7 +61,7 @@ const Navbar = (props) => {
         setLat('')
         setLng('')
         setInfo('')
-        setImage('')
+        setSelectedFile(null)
         props.setFlag(!props.flag) 
 
        
@@ -116,12 +107,12 @@ const Navbar = (props) => {
                        />
                     </label >
                     <label>
-                    Фото (Url):
+                    Завантажити фото: 
                     <input
-                        value={image}
-                        type="text" 
                         
-                        onChange={handleImage}
+                        type="file" 
+                        defaultValue={selectedFile}
+                        onChange={(e) => setSelectedFile(e.target.files[0])}
                        />
                     </label >
 
