@@ -22,53 +22,42 @@ const Navbar = (props) => {
         setInfo(e.target.value)
     }
 
-   
-    
-
-
-console.log('image', selectedFile)
 
     const handleClick =  async (e) => {
         e.preventDefault()
         
         const formData = new FormData()
-       
-       
+              
         if (lat.match(/^[0-9]+[.]?[0-9]+$/) && lng.match(/^[0-9]+[.]?[0-9]+$/) && info.length && selectedFile) {
             formData.append('lat', lat)
             formData.append('lng', lng)
             formData.append('info', info)
             formData.append('image', selectedFile)
-       
-        
-        
-        let axiosConfig = {
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                "Access-Control-Allow-Origin": "*",
+    
+            let axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    "Access-Control-Allow-Origin": "*",
+                }
             }
-          }
           
-      await  axios.post(process.env.REACT_APP_API_URL, formData, axiosConfig)
-          .then((res) => {
-            console.log("RESPONSE RECEIVED: ", res);
-          })
-          .catch((err) => {
-            console.log("AXIOS ERROR: ", err);
-          })
+            await  axios.post(process.env.REACT_APP_API_URL, formData, axiosConfig)
+                .then((res) => {
+                    console.log("RESPONSE RECEIVED: ", res);
+                })
+                .catch((err) => {
+                    console.log("AXIOS ERROR: ", err);
+                })
        
-        
-        setLat('')
-        setLng('')
-        setInfo('')
-        setSelectedFile(null)
-        props.setFlag(!props.flag) 
+                setLat('')
+                setLng('')
+                setInfo('')
+                setSelectedFile(null)
+                props.setFlag(!props.flag) 
 
-       
         } else {
             alert('Coordinates must be numeric with ".", and all fields must be filling')
         }
-       
     }
 
 

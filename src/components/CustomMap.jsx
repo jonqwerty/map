@@ -1,6 +1,5 @@
 import React, { useEffect, useState }  from 'react'
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
-import { locationsData } from '../data/data'
 import Navbar from './Navbar'
 import axios from 'axios'
 
@@ -14,37 +13,36 @@ const mapStyles = {
 const CustomMap = ({google}) => {
 
   const [flag, setFlag] = useState(false)
-
   const [locations, setLocations] = useState([])
-  console.log(locations)
   const [inside, setInside] = useState([])
   const [ref, setRef] = useState('')
-  
-    useEffect(() => {
-      axios.get(process.env.REACT_APP_API_URL)
-          .then(res => setLocations(res.data.positions))
-      
-          axios.get(process.env.REACT_APP_API_URL)
-          .then(res => setInside(res.data.positions))
 
-          
-          
-    }, [])
-
-   
-    console.log(locations)
     
-    useEffect(() => {
-      const timer = setTimeout(() => 
-        axios.get(process.env.REACT_APP_API_URL)
+    useEffect(async() => {
+      console.log('first effect')
+      await axios.get(process.env.REACT_APP_API_URL)
           .then(res => setLocations(res.data.positions))
-      , 3000)
+          
+          
+      await axios.get(process.env.REACT_APP_API_URL)
+           .then(res => setInside(res.data.positions))
+              
+    }, [])
+   
+   
+    useEffect(async() => {
+        await axios.get(process.env.REACT_APP_API_URL)
+          .then(res => setLocations(res.data.positions))
+          
+        await axios.get(process.env.REACT_APP_API_URL)
+          .then(res => setInside(res.data.positions))
       
     }, [flag])
+
+    
   
     const handleDrag = (e) => {
         const inWindow = []
-        //console.log(inWindow)
         const bounds = ref.map.getBounds()
         for (var i = 0; i < locations.length; i++) {
           if (bounds.contains(new google.maps.LatLng(locations[i].lat, locations[i].lng))) {
@@ -52,7 +50,6 @@ const CustomMap = ({google}) => {
           }
         }
         setInside(inWindow)
-     
       //bounds.contains(new google.maps.LatLng(locations.find(item => item.lat =5).lat, locations.find(item => item.id=5).lng))
     }
 
@@ -66,23 +63,22 @@ const CustomMap = ({google}) => {
 
 
   return (
-    <div style={{display:"flex", justifyContent:'space-between' , marginTop:"20px", height:"100%"}}>
+    <div style={{display:"flex", justifyContent:'space-between' , marginTop:"20px", height:"100%"}}  >
 
       <Navbar flag={flag} setFlag={setFlag} />
 
-      <div style={{width: "800px", height: "500px"}}>
+      <div style={{width: "800px", height: "500px"}} >
        
         <Map
+          id="map"
           className="map" 
           google={google}
           zoom={11}
           style={mapStyles}
           initialCenter={{ lat: 50.44055686944465, lng: 30.53022771561217 }}
           ref={map => setRef(map)}
-
-          // onReady={(map) => {
-          //   console.log('onReady', ref.map.getBounds())
-          // }}
+         
+          onReady={handleDrag}
 
           // onBoundsChange={(e)=>{
           //   console.log('onBoundsChange', ref.map.getBounds())
@@ -90,7 +86,11 @@ const CustomMap = ({google}) => {
 
           onDragend={handleDrag}
           onZoomChanged={handleDrag}
+          //onClick={handleDrag}
+          onMouseover={handleDrag}
+          onTilesloaded={handleDrag}
 
+          //onIdle={() => console.log('idle')}
           // onClick={(e) => {
           //   console.log('map bounds', ref.map.getBounds())
             //console.log(ref.map.getBounds().contains(new google.maps.LatLng(locations.find(item => item.lat =5).lat, locations.find(item => item.id=5).lng)))    
@@ -108,13 +108,14 @@ const CustomMap = ({google}) => {
         
       </div>
       
-      <div  style={{width: "300px"}}>
+      <div  style={{width: "300px", height: "600px" }}  >
         
         {
+
           inside.map(loc => 
             <div key={loc._id} style={{ backgroundColor:'grey', border: "solid black 2px", margin: "10px"}}>
               <div style={{   margin: "10px"}} >
-                 <img style={{ border: "solid black 2px",  width: "255px", height: "250px"}} src={process.env.REACT_APP_API_URL + loc.image} alt="image" /> 
+                 <img style={{ border: "solid black 2px",  width: "255px", height: "250px"}} src={process.env.REACT_APP_API_URL + loc.image} alt="image"  /> 
               </div>
               <div style={{padding: "10px"}}>{loc.info} </div>
 
@@ -122,6 +123,7 @@ const CustomMap = ({google}) => {
           )
         }
         </div>
+       
         
     </div>  
   )
