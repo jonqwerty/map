@@ -36,7 +36,7 @@ const Navbar = (props) => {
     
             let axiosConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json; charset=utf-8',
                     "Access-Control-Allow-Origin": "*",
                 }
             }

@@ -115,7 +115,10 @@ const CustomMap = ({google}) => {
           inside.map(loc => 
             <div key={loc._id} style={{ backgroundColor:'grey', border: "solid black 2px", margin: "10px"}}>
               <div style={{   margin: "10px"}} >
-                 <img style={{ border: "solid black 2px",  width: "255px", height: "250px"}} src={process.env.REACT_APP_API_URL + loc.image} alt="image"  /> 
+                 <img style={{ border: "solid black 2px",  width: "255px", height: "250px"}} 
+                 src={process.env.REACT_APP_API_URL + loc.image} alt="image"  
+                 
+                 /> 
               </div>
               <div style={{padding: "10px"}}>{loc.info} </div>
 
