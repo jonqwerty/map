@@ -86,8 +86,8 @@ const CustomMap = ({google}) => {
 
           onDragend={handleDrag}
           onZoomChanged={handleDrag}
-          //onClick={handleDrag}
-          onMouseover={handleDrag}
+          onClick={handleDrag}
+          //onMouseover={handleDrag}
           onTilesloaded={handleDrag}
 
           //onIdle={() => console.log('idle')}
