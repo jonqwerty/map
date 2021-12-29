@@ -20,12 +20,15 @@ const CustomMap = ({google}) => {
     
     useEffect(async() => {
       console.log('first effect')
+      
       await axios.get(process.env.REACT_APP_API_URL)
           .then(res => setLocations(res.data.positions))
           
           
       await axios.get(process.env.REACT_APP_API_URL)
-           .then(res => setInside(res.data.positions))
+            .then(res =>  setInside(res.data.positions))
+
+      
               
     }, [])
    
@@ -36,14 +39,16 @@ const CustomMap = ({google}) => {
           
         await axios.get(process.env.REACT_APP_API_URL)
           .then(res => setInside(res.data.positions))
-      
+          
+         
     }, [flag])
 
-    
+       
   
     const handleDrag = (e) => {
         const inWindow = []
         const bounds = ref.map.getBounds()
+        console.log(bounds)
         for (var i = 0; i < locations.length; i++) {
           if (bounds.contains(new google.maps.LatLng(locations[i].lat, locations[i].lng))) {
             inWindow.push(locations[i])
@@ -80,16 +85,12 @@ const CustomMap = ({google}) => {
          
           onReady={handleDrag}
 
-          // onBoundsChange={(e)=>{
-          //   console.log('onBoundsChange', ref.map.getBounds())
-          // }}
-
           onDragend={handleDrag}
           onZoomChanged={handleDrag}
           onClick={handleDrag}
-          //onMouseover={handleDrag}
           onTilesloaded={handleDrag}
-
+          // onBoundsChange={(e)=>{console.log('onBoundsChange', ref.map.getBounds())}}
+          //onMouseover={handleDrag}
           //onIdle={() => console.log('idle')}
           // onClick={(e) => {
           //   console.log('map bounds', ref.map.getBounds())
@@ -116,7 +117,7 @@ const CustomMap = ({google}) => {
             <div key={loc._id} style={{ backgroundColor:'grey', border: "solid black 2px", margin: "10px"}}>
               <div style={{   margin: "10px"}} >
                  <img style={{ border: "solid black 2px",  width: "255px", height: "250px"}} 
-                 src={process.env.REACT_APP_API_URL + loc.image} alt="image"  
+                 src={`data:${loc.contentType};base64,${loc.imageBase64}`} alt="image"  
                  
                  /> 
               </div>
