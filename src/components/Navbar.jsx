@@ -37,7 +37,7 @@ const Navbar = (props) => {
             // for (var key of formData.entries()) {
             //     console.log(key[0] + ', ' + key[1])
             // }
-            const result = await  axios.post(process.env.REACT_APP_API_URL, formData, {headers:{"Access-Control-Allow-Origin": "*"}})
+            await  axios.post(process.env.REACT_APP_API_URL, formData)
             setLat('')
                      setLng('')
                      setInfo('')
@@ -47,30 +47,7 @@ const Navbar = (props) => {
         } else {
                 alert('Coordinates must be numeric with ".", and all fields must be filling')
             }
-        // if (lat.match(/^[0-9]+[.]?[0-9]+$/) && lng.match(/^[0-9]+[.]?[0-9]+$/) && info.length && file) {
-        //     formData.append('lat', lat)
-        //     formData.append('lng', lng)
-        //     formData.append('info', info)
-        //     formData.append('image', file)
-    
-        //     let axiosConfig = {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //             //"Access-Control-Allow-Origin": "*",
-        //         }
-        //     }
-        //     console.log(formData)
-        //     const result = await  axios.post(process.env.REACT_APP_API_URL, formData)
-
-        //         setLat('')
-        //         setLng('')
-        //         setInfo('')
-        //         setSelectedFile(null)
-        //         props.setFlag(!props.flag) 
-
-        // } else {
-        //     alert('Coordinates must be numeric with ".", and all fields must be filling')
-        // }
+        
     }
 
 
