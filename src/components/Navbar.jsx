@@ -37,7 +37,7 @@ const Navbar = (props) => {
             // for (var key of formData.entries()) {
             //     console.log(key[0] + ', ' + key[1])
             // }
-            await  axios.post(process.env.REACT_APP_API_URL, formData)
+            await  axios.post(process.env.REACT_APP_API_URL, formData, {headers: {'Access-Control-Allow-Origin': '*' }})
                 .then(res => console.log(res))
             setLat('')
                      setLng('')
