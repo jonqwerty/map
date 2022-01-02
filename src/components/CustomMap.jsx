@@ -17,6 +17,21 @@ const CustomMap = ({google}) => {
   const [inside, setInside] = useState([])
   const [ref, setRef] = useState('')
 
+  const [rectangle, setRectangle] = useState({x1: 30.255569, x2: 30.804885, y1: 50.331103, y2: 50.549758})
+
+const point = {x: lng, y: lat}
+
+
+function pointRectangleIntersection(p, r) {
+    const inWindow = []
+    for (let i = 0; i < p.length; i++) {
+      if (p.lng > r.x1 && p.lng < r.x2 && p.lat > r.y1 && p.lat < r.y2) {
+        inWindow.push(locations[i])
+      }
+    }
+    setInside(inWindow)
+}
+
     
     useEffect(async() => {
       console.log('first effect')
@@ -24,9 +39,10 @@ const CustomMap = ({google}) => {
       await axios.get(process.env.REACT_APP_API_URL)
           .then(res => setLocations(res.data.positions))
           
-          
-      await axios.get(process.env.REACT_APP_API_URL)
-            .then(res =>  setInside(res.data.positions))
+      pointRectangleIntersection(locations,rectangle )
+
+      // await axios.get(process.env.REACT_APP_API_URL)
+      //       .then(res =>  setInside(res.data.positions))
 
       
               
