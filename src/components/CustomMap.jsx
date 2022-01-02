@@ -17,34 +17,31 @@ const CustomMap = ({google}) => {
   const [inside, setInside] = useState([])
   const [ref, setRef] = useState('')
 
-  const [rectangle, setRectangle] = useState({x1: 30.255569, x2: 30.804885, y1: 50.331103, y2: 50.549758})
-
-const point = {x: lng, y: lat}
-
-
-function pointRectangleIntersection(p, r) {
-    const inWindow = []
+  
+const pointRectangleIntersection = (p) => {
+  
+  const r = {x1: 30.255569, x2: 30.804885, y1: 50.331103, y2: 50.549758}
+  const inWindow = []
     for (let i = 0; i < p.length; i++) {
-      if (p.lng > r.x1 && p.lng < r.x2 && p.lat > r.y1 && p.lat < r.y2) {
-        inWindow.push(locations[i])
+      if (p[i].lng > r.x1 && p[i].lng < r.x2 && p[i].lat > r.y1 && p[i].lat < r.y2) {
+        inWindow.push(p[i])
       }
     }
-    setInside(inWindow)
+    return inWindow
 }
 
     
     useEffect(async() => {
       console.log('first effect')
-      
+  
       await axios.get(process.env.REACT_APP_API_URL)
           .then(res => setLocations(res.data.positions))
-          
-      pointRectangleIntersection(locations,rectangle )
+  
+       await axios.get(process.env.REACT_APP_API_URL)
+             .then(res =>  setInside(pointRectangleIntersection(res.data.positions)))
 
       // await axios.get(process.env.REACT_APP_API_URL)
-      //       .then(res =>  setInside(res.data.positions))
-
-      
+        //   .then(res => setInside(res.data.positions))
               
     }, [])
    
@@ -54,9 +51,11 @@ function pointRectangleIntersection(p, r) {
           .then(res => setLocations(res.data.positions))
           
         await axios.get(process.env.REACT_APP_API_URL)
-          .then(res => setInside(res.data.positions))
-          
-         
+          .then(res =>  setInside(pointRectangleIntersection(res.data.positions)))
+           
+        // await axios.get(process.env.REACT_APP_API_URL)
+        //   .then(res => setInside(res.data.positions))
+
     }, [flag])
 
        

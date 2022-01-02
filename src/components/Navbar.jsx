@@ -47,10 +47,8 @@ const Navbar = (props) => {
 
         } else {
                 alert('Coordinates must be numeric with ".", and all fields must be filling')
-            }
-        
+            } 
     }
-
 
     return (
         <div style={{ height:"500px", width:"6em", backgroundColor: 'grey', textAlign: "center", fontSize: "40px"}}>
